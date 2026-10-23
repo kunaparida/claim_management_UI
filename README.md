@@ -1,59 +1,42 @@
-# ClaimManagementUi
+# Claim Management UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.3.
+Angular 22 front end for the claims backend in `chubb-claims-backendService`. **One app, three roles:**
 
-## Development server
+| Role | Can do |
+|---|---|
+| **Claimant** | Register, report an incident, track their claims, answer an officer's request for information, read the decision |
+| **Claims officer** | Work queue (oldest first), pick up claims, start review, request information, approve / reject, mark settled |
+| **Manager** | Dashboard (open claims, liability per market, officer performance), see all claims, assign claims to officers |
 
-To start a local development server, run:
+## Run it locally
 
-```bash
-ng serve
-```
+You need **Node 20+** and the backend running on **http://localhost:8080**.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+1. Start the backend (JDK 21, Maven) from `chubb-claims-backendService`:
+   ```bash
+   mvn spring-boot:run
+   ```
+2. Start this app:
+   ```bash
+   npm install
+   npm start
+   ```
+3. Open **http://localhost:4200**.
 
-## Code scaffolding
+`npm start` proxies `/api` to the backend (`proxy.conf.json`). That is required, not optional: the backend has no CORS configuration, so
+a browser cannot call it directly from another port.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+**Accounts.** The backend seeds `officer@claims.local` and `manager@claims.local` (password `ChangeMe123!`) — the login page has one-click
+buttons for them. Claimants register themselves (**Create an account**).
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Scripts
 
 ```bash
-ng test
+npm run build                  # production build into dist/
+npm test -- --no-watch         # Vitest unit tests (216)
 ```
 
-## Running end-to-end tests
+## How it is organised
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+See [`CLAUDE.md`](CLAUDE.md) for the backend contract, the architecture rules and the file layout, and [`AI_JOURNAL.md`](AI_JOURNAL.md) for
+how it was built with AI — what was asked, what was accepted, what was corrected, and what was and was not verified.
